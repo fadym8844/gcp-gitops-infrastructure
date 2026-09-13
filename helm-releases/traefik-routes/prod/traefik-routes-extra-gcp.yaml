@@ -1,0 +1,61 @@
+# Extra IngressRoutes for GCP - namespaces outside madkhol
+# Exact mirror of live OCI IngressRoutes confirmed by kubectl get ingressroute -A -o yaml
+# Apply after Traefik is running:
+#   kubectl apply -f traefik-routes-extra-gcp.yaml
+
+---
+# ArgoCD - confirmed from live OCI: cd.madkhol.com → argocd-server:80
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: argocd-server
+  namespace: argocd
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - kind: Rule
+      match: Host(`argocd.madkhol.com`) && PathPrefix(`/`)
+      services:
+        - name: argocd-server
+          port: 80
+  tls:
+    secretName: cd-traefik-cert
+
+---
+# Grafana - confirmed from live OCI: monitoring.madkhol.com → monitoring-grafana:80
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: kube-prometheus-stack-grafana
+  namespace: monitoring
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - kind: Rule
+      match: Host(`monitoringgcp.madkhol.com`) && PathPrefix(`/`)
+      services:
+        - name: kube-prometheus-stack-grafana
+          port: 80
+  tls:
+    secretName: traefik-cert-monitoring-prod
+
+---
+# RabbitMQ Management UI - confirmed from live OCI: rabbitmq.madkhol.com → madkhol:15672
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: rabbitmq-ui
+  namespace: rabbitmq-system
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - kind: Rule
+      match: Host(`rabbitmqgcp.madkhol.com`) && PathPrefix(`/`)
+      services:
+        - name: madkhol
+          port: 15672
+  tls:
+    secretName: rabbitmq-traefik-cert-prod

@@ -1,0 +1,13 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: madkhol-admin-tls
+  namespace: madkhol
+spec:
+  secretName: madkhol-admin-tls
+  issuerRef:
+    name: acme-http-issuer-traefik
+    kind: ClusterIssuer
+    group: cert-manager.io
+  dnsNames:
+    - admin.madkhol.com
