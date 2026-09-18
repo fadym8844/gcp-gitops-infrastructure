@@ -22,29 +22,29 @@ variable "billing_account" {
 
 variable "network_project_id" {
   type    = string
-  default = "madkhol-network-prod"
+  default = "network-prod"
 }
 
 variable "workload_project_id" {
   type    = string
-  default = "madkhol-workload-prod"
+  default = "workload-prod"
 }
 
 variable "db_project_id" {
   type        = string
-  default     = "madkhol-database-dr-prod"
-  description = "Fresh project for the production database - confirmed decision, not adopting the existing Doha-based madkhol-dr-db."
+  default     = "database-dr-prod"
+  description = "Fresh project for the production database - confirmed decision, not adopting the existing Doha-based dr-db."
 }
 
 variable "github_owner" {
   type    = string
-  default = "madkol"
+  default = ""
 }
 
 variable "allowed_repositories" {
   type        = list(string)
   description = "Repos permitted to impersonate the CI service account."
   default = [
-    "madkol/Infrastructure",
+    "Infrastructure",
   ]
 }
