@@ -1,6 +1,6 @@
-# Install values for the madkhol-gcp ApplicationSet release on GKE.
+# Install values for the gcp ApplicationSet release on GKE.
 # Base content is identical to the confirmed real values (helm get values
-# madkhol -n argocd) - only two things actually change, both marked below.
+#  -n argocd) - only two things actually change, both marked below.
 # Everything else (service URLs, DB connection shape, Sentry sampling,
 # container command) is cloud-agnostic and stays exactly as-is.
 
@@ -10,25 +10,24 @@ autoscaling:
   minReplicas: 1
 
 env:
-  ADMIN_EMAIL: i.sarokin@madkhol.com
+  ADMIN_EMAIL:
   ADMIN_SERVICE: http://admin-service
   AGGREGATOR_SERVICE: http://aggregator-service
   ALPACA_SERVICE: http://alpaca-service
   ANONYMOUS_SERVICE: http://anonymous-service
-  APP_BASE_URL: https://app.madkhol.com
+  APP_BASE_URL: 
   APP_SERVICE: http://app-service
   ARCHIVE_SERVICE: http://archive-service
   AUTH_SERVICE: http://auth-service
   # CHANGED — was 10.10.30.111 (OCI private IP). Real value only exists
   # once `terraform apply` creates the Cloud SQL instance in
-  # madkhol-prod-dr — get it via:
   #   terraform output -raw cloudsql_private_ip
-  DB_HOST: "10.88.0.3"
+  DB_HOST: ""
   DB_LOGGING: "false"
   DB_PORT: "3306"
   DB_TYPE: mysql
-  DB_USER: madkhol
-  DB_USERNAME: madkhol
+  DB_USER: 
+  DB_USERNAME:
   EMPLOYEE_SERVICE: http://employee-service
   HOST: 0.0.0.0
   IAM_SERVICE: http://iam-service
@@ -38,7 +37,7 @@ env:
   MEDIA_SERVICE: http://media-service
   NODE_ENV: PROD
   NOTIFIER_SERVICE: http://notifier-service
-  ORIGIN_URL: https://admin.madkhol.com,https://api.madkhol.com,https://app.madkhol.com,https://madkhol.com,http://localhost:3000,http://localhost:3001
+  ORIGIN_URL: 
   PAYMENT_SERVICE: http://payment-service
   PORT: "80"
   PORTFOLIO_SERVICE: http://portfolio-service
@@ -65,10 +64,7 @@ envSecret:
   SESSION_SECRET: null
 
 environment: prod
-organization: madkhol-gcp # CHANGED — was "madkhol". This is what makes the
-  # ApplicationSet's git directory generator watch helm-releases/madkhol-gcp/*
-  # instead of helm-releases/madkhol/* — the actual mechanism that keeps
-  # this fully separate from the OCI-side ArgoCD, by construction.
+organization: 
 
 externalSecretVaultName: gcp-secret-manager-store # pending: needs a
   # GCP Secret Manager equivalent ClusterSecretStore if ESO is kept for the
@@ -100,4 +96,4 @@ rabbitmq:
     create: false
 instrumentation:
   enabled: false
-namespace: madkhol
+namespace: 
